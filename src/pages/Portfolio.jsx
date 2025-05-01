@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { motion } from "framer-motion";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 
 const experiences = [
   { role: "SDE-1", company: "Paybolt", duration: "Sept 2024 - Present", 
@@ -43,19 +44,39 @@ const projects = [
 ];
 
 export default function Portfolio() {
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-8 font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 text-black dark:bg-gradient-to-br dark:from-gray-900 dark:via-black dark:to-gray-900 dark:text-white p-8 font-sans transition-colors duration-700 ease-in-out">
+      <button 
+        onClick={toggleTheme}
+        className="absolute top-6 right-6 text-white dark:text-gray-200 bg-gray-400 dark:bg-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-500 dark:hover:bg-gray-600 transition"
+      >
+        {theme === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+      </button>
       <header className="text-center text-6xl font-extrabold my-8 tracking-wider text-blue-400 drop-shadow-lg">Jahnavi Garikapati</header>
-      <p className="text-center text-xl text-gray-300 italic">Backend Developer | Full Stack Enthusiast</p>
+      <p className="text-center text-xl text-gray-700 dark:text-gray-300 italic">Fullstack Developer | ML Enthusiast</p>
       
-      <section className="my-16">
+      <section className="mb-16 mt-12">
         <h2 className="text-4xl font-bold mb-8 border-b-4 pb-3 border-blue-500 text-center">Experience</h2>
-        <div className="max-w-5xl mx-auto overflow-y-auto h-100 p-4 bg-gray-800 rounded-xl shadow-2xl">
+        <div className="max-w-5xl mx-auto overflow-y-auto h-100 p-4 bg-gray-300 dark:bg-gray-800 rounded-xl shadow-2xl">
           {experiences.map((exp, index) => (
-            <motion.div key={index} className="mb-6 p-6 bg-gray-700 rounded-xl shadow-lg hover:shadow-blue-500 transition-shadow" whileHover={{ scale: 1.05 }}>
-              <h3 className="text-2xl font-semibold text-blue-300">{exp.role} - {exp.company}</h3>
-              <p className="text-gray-400 italic">{exp.duration}</p>
-              <ul className="list-none pl-6 mt-3 text-gray-300">
+            <motion.div key={index} className="mb-6 p-6 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-lg hover:shadow-blue-500 transition-shadow" whileHover={{ scale: 1.05 }}>
+              <h3 className="text-2xl font-semibold text-blue-500 dark:text-blue-300">{exp.role} - {exp.company}</h3>
+              <p className="text-gray-600 dark:text-gray-400 italic">{exp.duration}</p>
+              <ul className="list-none pl-6 mt-3 text-gray-500 dark:text-gray-300">
                 {exp.details.map((detail, i) => (
                   <li key={i}>{detail}</li>
                 ))}
@@ -70,22 +91,21 @@ export default function Portfolio() {
         <h2 className="text-4xl font-bold mb-8 border-b-4 pb-3 border-blue-500 text-center">Projects</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <motion.div key={index} className="p-6 bg-gray-800 rounded-xl shadow-2xl hover:shadow-blue-500 transition-shadow hover:bg-gray-700" whileHover={{ scale: 1.05 }}>
-              <h3 className="text-2xl font-semibold text-blue-300">{project.name}</h3>
-              <p className="text-gray-300">{project.description}</p>
+            <motion.div key={index} className="p-6 bg-gray-200 dark:bg-gray-800 rounded-xl shadow-2xl hover:shadow-blue-500 transition-shadow hover:bg-gray-300 dark:hover:bg-gray-700" whileHover={{ scale: 1.05 }}>
+              <h3 className="text-2xl font-semibold text-blue-400 dark:text-blue-300">{project.name}</h3>
+              <p className="text-gray-400 dark:text-gray-300">{project.description}</p>
               <p className="mt-3 text-blue-400">Tech Stack: {project.techStack.join(", ")}</p>
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mt-2 inline-block">View Project</a>
+              <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-800 dark:text-blue-500 hover:underline mt-2 inline-block">View Project</a>
             </motion.div>
           ))}
         </div>
       </section>
       
       <footer className="text-center mt-16">
-        <h2 className="text-3xl font-bold text-blue-400">Contact</h2>
-        <p className="text-gray-300 text-lg">Email: jahnavig310@gmail.com</p>
         <div className="flex justify-center mt-8 space-x-8">
           <a href="https://www.linkedin.com/in/jahnavi-garikapati-64b4281b9/" className="text-4xl text-blue-400 hover:text-blue-300 transition-transform transform hover:scale-125"><FaLinkedin /></a>
           <a href="https://github.com/jahnavi02" className="text-4xl text-blue-400 hover:text-blue-300 transition-transform transform hover:scale-125"><FaGithub /></a>
+          <a href="mailto:jahnavig310@gmail.com" className="text-4xl text-blue-400 hover:text-blue-300 transition-transform transform hover:scale-125"><FaEnvelope /></a>
         </div>
       </footer>
     </div>
